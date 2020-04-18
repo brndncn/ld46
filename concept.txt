@@ -1,0 +1,39 @@
+LUDUM DARE 46
+Brandon Canfield
+
+- delivery worker
+- delivering an older "refurbished" robot as its your first delivery
+- deliver in <x> amount of time to please customer
+
+Perhaps: play on a kids playtable? implict story?
+gameover -> zoom out
+
+ABOUT THE ROBOT:
+body, head, 2 arms, 2 legs
+Maybe one arm broken at first?
+Does the bed go in the head or the body?
+Telephone somewhere
+controls in the head
+
+GAMEPLAY "SCHEDULE"
+Day 0:
+=====
+meet boss, first day on the job
+brief exposition:
+- you just got hired as a delivery worker for a company that sells/refurbishes giant robots
+- you have no experience walking these robots, but you pretend you do
+- if possible: show nicer robot that you think you'll be delivering, reveal used refurbished one
+- don't operate heavy machinery while drowsy!
+- boss tells you to call him if you need anything
+=====
+Giant garage door opens, you can now walk robot
+
+ ==== sleep ====
+Day 1:
+
+ ==== sleep ====
+
+Day 2:
+
+ ==== sleep ====
+ WAKE UP ! in the middle of the night --> someone steals ... foot?
