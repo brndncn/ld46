@@ -7,6 +7,7 @@ export abstract class Location {
   camera: THREE.Camera;
   cameraTarget: THREE.Vector3 = new THREE.Vector3(0, 0, 1.5);
   cameraHeight: number = 4;
+  cameraYOffset: number = 0;
 
   mixer: THREE.AnimationMixer;
   labeledActions = {};
@@ -56,6 +57,7 @@ export abstract class Location {
           specular: new THREE.Color(0xffffff),
           shininess: COLORS.locationShininess(child.name, locationName),
         });
+        child.castShadow = COLORS.locationCastShadow(child.name);
         child.receiveShadow = true; // TODO do we want this?
       }
     });
@@ -87,7 +89,7 @@ export abstract class Location {
   update(state, delta: number) {
     this.mixer.update(delta);
     // TODO
-    let camY = -0.7 * state.player.obj.position.y;
+    let camY = -0.7 * state.player.obj.position.y + this.cameraYOffset;
     this.camera.position.y = camY;
     this.camera.position.x = Math.sqrt(25 - camY * camY);
     this.camera.position.z = this.cameraHeight - 0.7 * state.player.obj.position.z;

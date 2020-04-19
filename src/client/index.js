@@ -7,5 +7,6 @@ import * as CONTENT from './content';
 CONTENT.acquireGLB('character.glb');
 CONTENT.acquireGLB('roboChest.glb');
 CONTENT.acquireGLB('roboHead.glb');
+CONTENT.acquireGLB('roboLeft.glb');
 setupInput();
 run();
