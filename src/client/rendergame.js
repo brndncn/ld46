@@ -22,11 +22,6 @@ let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 let material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 
-camera.position.z = 5;
-camera.position.y = 3;
-camera.lookAt(new THREE.Vector3(0, 0, 0));
-camera.up.set(0,0,1);
-
 //var hemiLight = new THREE.HemisphereLight( 0xaaaaaa, 0x444444 );
 //hemiLight.position.set( 0, 20, 0 );
 //scene.add( hemiLight );
@@ -43,17 +38,21 @@ dirLight.shadow.camera.far = 40;
 scene.add( dirLight );
 
 let effect = new OutlineEffect( renderer );
-var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } ) );
+// var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } ) );
 				//mesh.rotation.x = - Math.PI / 2;
-				mesh.receiveShadow = true;
-				scene.add( mesh );
+//mesh.receiveShadow = true;
+//scene.add( mesh );
 
+//let controls = new OrbitControls( camera, renderer.domElement );
+//controls.maxPolarAngle = Math.PI * 0.5;
+//controls.minDistance = 1;
+//controls.maxDistance = 10;
+//controls.target.set(0, 0, 1.5);
 
-// TODO this should be moved elsewhere
-let controls = new OrbitControls( camera, renderer.domElement );
-controls.maxPolarAngle = Math.PI * 0.5;
-controls.minDistance = 1;
-controls.maxDistance = 10;
+camera.position.x = 5;
+camera.position.z = 4;
+camera.lookAt(new THREE.Vector3(0, 0, 1.5));
+camera.up.set(0,0,1);
 
 let mixers = [];
 
@@ -111,5 +110,10 @@ export function render(state, delta) {
   mixers.forEach((mixer) => {
     mixer.update(delta);
   });
+
+  camera.position.x = 5;
+  camera.position.y = -0.7 * state.player.obj.position.y;
+  camera.position.z = 4 - 0.7 * state.player.obj.position.z;
+  camera.lookAt(0, 0, 1.5);
   effect.render(scene, camera);
 }
