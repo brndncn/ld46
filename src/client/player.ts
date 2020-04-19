@@ -1,11 +1,13 @@
 import * as COLORS from './colors';
 import * as CONTENT from './content';
+import * as RENDER from './rendergame';
 import { getButton, BUTTONS } from './input';
 
 import * as THREE from 'three';
 
 export class Player {
   // mesh
+  playerScene;
   obj;
   mixer;
   actions;
@@ -13,14 +15,13 @@ export class Player {
   // player info
   speed: number = 0.03;
 
-  constructor(scene: THREE.Scene) {
+  constructor() {
     // -------
     // GRAPHICS
     // -------
     let playerGLTF = CONTENT.pullGLB("character.glb");
-    let playerScene = playerGLTF.scene;
-    this.obj = playerScene.children.find((child) => child.name === "You");
-    scene.add(playerScene);
+    this.playerScene = playerGLTF.scene;
+    this.obj = this.playerScene.children.find((child) => child.name === "You");
 
     this.obj.traverse((child) => {
       if (child.isMesh) {
@@ -34,7 +35,7 @@ export class Player {
       }
     });
 
-    this.mixer = new THREE.AnimationMixer(playerScene);
+    this.mixer = new THREE.AnimationMixer(this.playerScene);
     this.actions = {'Walk': [], 'Reach': [], 'Hammer': []};
     playerGLTF.animations.forEach((anim) => {
       Object.keys(this.actions).forEach((actionCat) => {
@@ -65,8 +66,24 @@ export class Player {
     } else {
       this.setActionWeight('Walk', 0);
     }
-    this.obj.position.x += xAx * this.speed;
-    this.obj.position.y += yAx * this.speed;
+    let oldX = this.obj.position.x;
+    let oldY = this.obj.position.y;
+    let newX = oldX + xAx * this.speed;
+    let newY = oldY + yAx * this.speed;
+    if (RENDER.getCurrentLocation().moveCallback(newX, newY)) {
+      this.obj.position.x = newX;
+      this.obj.position.y = newY;
+    } else if (RENDER.getCurrentLocation().moveCallback(oldX, newY)) {
+      this.obj.position.y = newY;
+    } else if (RENDER.getCurrentLocation().moveCallback(newX, oldY)) {
+      this.obj.position.y = newY;
+    }
+
+    let portal = RENDER.getCurrentLocation().portalCallback(this.obj.position.x, this.obj.position.y);
+    if (portal !== null) {
+      RENDER.changeLocation(portal);
+    }
+
 
     this.setActionWeight('Hammer', getButton(BUTTONS.HAMMER));
   }

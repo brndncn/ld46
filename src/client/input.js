@@ -43,6 +43,12 @@ export function getButton(button) {
   return buttonVals[button];
 }
 
+export function liftAllButtons() {
+  for (let b of Object.values(BUTTONS)) {
+    buttonVals[b] = 0.0;
+  }
+}
+
 // TODO set more flexible key mappings
 
 // TODO add register 'button' listener

@@ -12,9 +12,15 @@ export abstract class Location {
   labeledActions = {};
   unlabledActions = [];
 
+  name: string;
+
+  moveCallback = (x, y) => true;
+  portalCallback = (x, y) => null;
+
   constructor(gltf, locationName: string, actionPrefixes: string[] = []) {
     this.scene = new THREE.Scene();
     this.scene.add(gltf.scene);
+    this.name = locationName;
 
     // animations
     this.mixer = new THREE.AnimationMixer(gltf.scene);

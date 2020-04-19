@@ -25,7 +25,12 @@ function loop() {
   } else {
     if (!initialized) {
       RENDER.init();
-      state.player = new Player(RENDER.getScene());
+      state.player = new Player();
+      RENDER.changeLocation({
+        name: "head",
+        x: -0.3,
+        y: -0.26,
+      });
       clock = new THREE.Clock();
       initialized = true;
     }
@@ -37,6 +42,10 @@ function loop() {
     // RENDER
     RENDER.render(state, delta);
   }
+}
+
+export function getPlayer() {
+  return state.player;
 }
 
 export function run() {
