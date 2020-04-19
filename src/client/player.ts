@@ -86,7 +86,13 @@ export class Player {
       RENDER.changeLocation(portal);
     }
 
-
+    if (hammer) {
+      let hammerL = 0.42;
+      let theta = this.obj.rotation.z;
+      let hammerX = this.obj.position.x + Math.cos(theta) * hammerL;
+      let hammerY = this.obj.position.y + Math.sin(theta) * hammerL;
+      RENDER.getCurrentLocation().hammerCallback(hammerX, hammerY, delta);
+    }
     this.setActionWeight('Hammer', hammer);
   }
 

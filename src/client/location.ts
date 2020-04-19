@@ -16,6 +16,7 @@ export abstract class Location {
   unlabledActions = [];
 
   name: string;
+  machines = [];
 
   moveCallback = (x, y) => true;
   portalCallback = (x, y) => null;
@@ -65,7 +66,9 @@ export abstract class Location {
     });
     this.scene.traverse((child) => {
       if (child.name.indexOf('MACH') !== -1) {
-        STATE.addMachine(new Machine(child, this.name + child.name));
+        let machine = new Machine(child, this.name + child.name);
+        STATE.addMachine(machine);
+        this.machines.push(machine);
       }
     });
 
@@ -83,6 +86,15 @@ export abstract class Location {
     dirLight.shadow.camera.far = 40;
     this.scene.add( dirLight );
 
+  }
+
+  hammerCallback(hammerX: number, hammerY: number, delta: number) {
+    for (let machine of this.machines) {
+      if (Math.pow(machine.x - hammerX, 2) + Math.pow(machine.y - hammerY, 2) < Math.pow(machine.r, 2)) {
+        machine.getHammered(delta);
+        break;
+      }
+    }
   }
 
   setActionWeight(actionCat: string, weight: number) {
