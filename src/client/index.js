@@ -6,5 +6,6 @@ import * as CONTENT from './content';
 //CONTENT.acquireJSON('car1phys.json');
 CONTENT.acquireGLB('character.glb');
 CONTENT.acquireGLB('roboChest.glb');
+CONTENT.acquireGLB('roboHead.glb');
 setupInput();
 run();

@@ -24,8 +24,8 @@ function loop() {
     return;
   } else {
     if (!initialized) {
-      state.player = new Player(RENDER.getScene());
       RENDER.init();
+      state.player = new Player(RENDER.getScene());
       clock = new THREE.Clock();
       initialized = true;
     }

@@ -49,8 +49,6 @@ export class Player {
       });
     });
 
-    //this.setActionWeight('Hammer', 1);
-
     // TODO player info
   }
 
@@ -69,6 +67,8 @@ export class Player {
     }
     this.obj.position.x += xAx * this.speed;
     this.obj.position.y += yAx * this.speed;
+
+    this.setActionWeight('Hammer', getButton(BUTTONS.HAMMER));
   }
 
   setActionWeight(actionCat: string, weight: number) {

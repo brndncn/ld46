@@ -3,7 +3,7 @@ export const BUTTONS = Object.freeze({
   RIGHT:    1,
   UP:       2,
   DOWN:     3,
-  BRAKE:    4,
+  HAMMER:    4,
   STOP:     5,
 });
 
@@ -12,7 +12,7 @@ const keymap = {
   a: [BUTTONS.LEFT],
   s: [BUTTONS.DOWN],
   d: [BUTTONS.RIGHT],
-  ' ': [BUTTONS.BRAKE],
+  ' ': [BUTTONS.HAMMER],
   p: [BUTTONS.STOP],
 }
 
