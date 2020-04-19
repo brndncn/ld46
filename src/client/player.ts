@@ -25,7 +25,6 @@ export class Player {
 
     this.obj.traverse((child) => {
       if (child.isMesh) {
-        console.log(child.name);
         child.castShadow = true;
         child.material = new THREE.MeshToonMaterial( {
           color: new THREE.Color(COLORS.personColor(child.name, "You")),

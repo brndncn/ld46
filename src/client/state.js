@@ -12,8 +12,19 @@ let timeStep = 1.0/60.0;
 
 let initialized = false;
 
+let machines = [];
+export function addMachine(machine) {
+  machines.push(machine);
+}
+export function getMachines() {
+  return machines;
+}
+
 function update(delta) {
   state.player.update(delta);
+  machines.forEach((machine) => {
+    machine.update(delta);
+  });
 }
 
 function loop() {

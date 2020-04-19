@@ -1,4 +1,6 @@
 import * as COLORS from './colors';
+import * as STATE from './state';
+import { Machine } from './machine';
 
 import * as THREE from 'three';
 
@@ -58,15 +60,18 @@ export abstract class Location {
           shininess: COLORS.locationShininess(child.name, locationName),
         });
         child.castShadow = COLORS.locationCastShadow(child.name);
-        child.receiveShadow = true; // TODO do we want this?
+        child.receiveShadow = true;
+      }
+    });
+    this.scene.traverse((child) => {
+      if (child.name.indexOf('MACH') !== -1) {
+        STATE.addMachine(new Machine(child, this.name + child.name));
       }
     });
 
-    // TODO camera
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 
-    // TODO lights
     let dirLight = new THREE.DirectionalLight( 0xaaaaaa );
     dirLight.position.set( 10, 0, 10 );
     dirLight.castShadow = true;
