@@ -30,13 +30,13 @@ export class Player {
         child.material = new THREE.MeshToonMaterial( {
           color: new THREE.Color(COLORS.personColor(child.name, "You")),
           specular: new THREE.Color(0xffffff),
-          shininess: 4,
+          shininess: COLORS.personShininiess(child.name, "You"),
         });
       }
     });
 
     this.mixer = new THREE.AnimationMixer(this.playerScene);
-    this.actions = {'Walk': [], 'Reach': [], 'Hammer': []};
+    this.actions = {'ArmWalk': [], 'Walk': [], 'Reach': [], 'Hammer': []};
     playerGLTF.animations.forEach((anim) => {
       Object.keys(this.actions).forEach((actionCat) => {
         if (anim.name.startsWith(actionCat)) {
@@ -58,13 +58,16 @@ export class Player {
     let yAx = getButton(BUTTONS.RIGHT) - getButton(BUTTONS.LEFT);
     let xAx = getButton(BUTTONS.DOWN) - getButton(BUTTONS.UP);
     let moveMag = Math.sqrt(yAx * yAx + xAx * xAx);
+    let hammer = getButton(BUTTONS.HAMMER);
     if (moveMag !== 0) { 
       yAx /= moveMag;
       xAx /= moveMag;
       this.setActionWeight('Walk', 1);
+      this.setActionWeight('ArmWalk', 1 - hammer);
       this.obj.rotation.z = Math.atan2(yAx, xAx);
     } else {
       this.setActionWeight('Walk', 0);
+      this.setActionWeight('ArmWalk', 0);
     }
     let oldX = this.obj.position.x;
     let oldY = this.obj.position.y;
@@ -85,7 +88,7 @@ export class Player {
     }
 
 
-    this.setActionWeight('Hammer', getButton(BUTTONS.HAMMER));
+    this.setActionWeight('Hammer', hammer);
   }
 
   setActionWeight(actionCat: string, weight: number) {

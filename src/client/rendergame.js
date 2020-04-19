@@ -57,7 +57,7 @@ export function init() {
   let headGLTF = CONTENT.pullGLB("roboHead.glb");
   let headLocation = new Location(headGLTF, "head", []);
   headLocation.cameraHeight = 1.75;
-  headLocation.cameraTarget.set(0, 0, 1.5);
+  headLocation.cameraTarget.set(0, 0, 1);
   // DON'T FORGET TO ACCOUNT FOR .2 WIDTH OF CHARACTER!!
   headLocation.moveCallback = (x, y) => {
     // out-of-bounds (not using circ cuz we must be IN)

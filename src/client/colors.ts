@@ -3,12 +3,18 @@ import * as THREE from 'three';
 export function personColor(name: string, character: string) {
   if (name.startsWith('Eye')) return 0x000000;
   if (name.startsWith('Arm') || name.startsWith('Head')) return 0xefd7b3;
-  if (name.startsWith('Foot')) return 0x528c9e;
-  if (name.startsWith('Body')) return 0x80e866;
+  if (character === 'You') {
+    if (name.startsWith('Foot')) return 0x528c9e;
+    if (name.startsWith('Body')) return 0x80e866;
+  } else if (character === 'Boss') {
+    if (name.startsWith('Foot')) return 0x222222;
+    if (name.startsWith('Body')) return 0xc62d60;
+  }
   return 0xfc11e4;
 }
 
 export function locationColor(name: string, location: string) {
+  if (name.startsWith('Boss')) return personColor(name.substring(4), 'Boss');
   if (name.startsWith('Gear')) return 0x333333;
   if (name.startsWith('Mic')) return 0xbab9b0;
   if (name.startsWith('Lever')) return 0x969694;
@@ -23,7 +29,12 @@ export function locationColor(name: string, location: string) {
   return 0xfc11e4;
 }
 
+export function personShininiess(name: string, character: string) {
+  return 4;
+}
+
 export function locationShininess(name: string, location: string) {
   if (name.startsWith('Mic')) return 32;
+  if (name.startsWith('Boss')) return personShininiess(name.substring(4), 'Boss');
   return 6;
 }
