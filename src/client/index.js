@@ -8,5 +8,7 @@ CONTENT.acquireGLB('character.glb');
 CONTENT.acquireGLB('roboChest.glb');
 CONTENT.acquireGLB('roboHead.glb');
 CONTENT.acquireGLB('roboLeft.glb');
+CONTENT.acquireGLB('roboRight.glb');
+CONTENT.acquireGLB('startingRoom.glb');
 setupInput();
 run();

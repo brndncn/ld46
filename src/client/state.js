@@ -21,11 +21,12 @@ export function getMachines() {
   return machines;
 }
 
-let gameClock = 0;
-let nextDamageTime = 4;
+let gameClock = -10;
+let nextDamageTime = 0;
 
 export function resetGame() {
-  gameClock = 0;
+  gameClock = -10;
+  gameOver = false;
   aliveMachines = [];
   machines.forEach((machine) => {
     machine.reset();
@@ -33,10 +34,12 @@ export function resetGame() {
   });
 }
 
+let gameOver = true;
+
 function update(delta) {
   gameClock += delta;
-  if (gameClock >= nextDamageTime) {
-    let remainingHits = Math.min(5 + gameClock / 6, 10);
+  if (!gameOver && gameClock >= nextDamageTime) {
+    let remainingHits = Math.min(5 + gameClock / 12, 10);
     while (remainingHits >= 1) {
       let hits = Math.ceil(Math.random() * remainingHits);
       let index = Math.floor(Math.random() * aliveMachines.length);
@@ -51,14 +54,27 @@ function update(delta) {
         if (machine.isDead()) {
           aliveMachines.splice(index, 1);
         }
-        console.log('dealt ' + hits + ' hits to ' + machine.name);
+        //console.log('dealt ' + hits + ' hits to ' + machine.name);
       } else {
-        console.log(hits + ' hits spared!');
+        //console.log(hits + ' hits spared!');
       }
       remainingHits -= hits;
     }
-    // TODO check lose condition
-    nextDamageTime = gameClock + Math.max(8 - gameClock / 15, 6);
+    for (let location of Object.values(RENDER.getLocations())) {
+      if (location.name === 'startingRoom') continue;
+      if (location.machines.find((x) => !x.isDead()) === undefined) {
+        gameOver = true;
+        RENDER.changeLocation({
+          name: "startingRoom",
+          x: 0.5,
+          y: -1.4,
+          rotz:Math.PI,
+          text: 'All consoles in ' + location.friendlyName + ' burnt out. Score: ' + Math.floor(gameClock) * 100,
+        });
+        break;
+      }
+    }
+    nextDamageTime = gameClock + Math.max(8 - gameClock / 30, 6) + Math.random() * 1.2;
   }
   machines.forEach((machine) => {
     machine.update(delta);
@@ -77,9 +93,11 @@ function loop() {
       RENDER.init();
       state.player = new Player();
       RENDER.changeLocation({
-        name: "head",
-        x: -0.3,
-        y: -0.26,
+        name: "startingRoom",
+        x: 0.5,
+        y: -1.4,
+        rotz:Math.PI,
+        keepText: true,
       });
       clock = new THREE.Clock();
       resetGame();

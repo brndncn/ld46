@@ -12,6 +12,9 @@ export function personColor(name: string, character: string) {
   } else if (character === 'Michael') {
     if (name.startsWith('Foot')) return 0x222222;
     if (name.startsWith('Body')) return 0x308ed1;
+  } else if (character === 'Bichael') {
+    if (name.startsWith('Foot')) return 0x222222;
+    if (name.startsWith('Body')) return 0x7f3bed;
   }
   return 0xfc11e4;
 }
@@ -19,6 +22,7 @@ export function personColor(name: string, character: string) {
 export function locationColor(name: string, location: string) {
   if (name.startsWith('Boss')) return personColor(name.substring(4), 'Boss');
   if (name.startsWith('Michael')) return personColor(name.substring(7), 'Michael');
+  if (name.startsWith('Bichael')) return personColor(name.substring(7), 'Bichael');
   if (name.startsWith('Gear')) return 0x333333;
   if (name.startsWith('Mic')) return 0xbab9b0;
   if (name.startsWith('Lever')) return 0x969694;
@@ -50,6 +54,7 @@ export function personShininiess(name: string, character: string) {
 export function locationCastShadow(name: string) {
   if (name.startsWith('Michael')
     || name.startsWith('Boss')
+    || name.startsWith('Bichael')
   ) return true;
   return false;
 }
@@ -57,6 +62,7 @@ export function locationCastShadow(name: string) {
 export function locationShininess(name: string, location: string) {
   if (name.startsWith('Boss')) return personShininiess(name.substring(4), 'Boss');
   if (name.startsWith('Michael')) return personShininiess(name.substring(7), 'Michael');
+  if (name.startsWith('Bichael')) return personShininiess(name.substring(7), 'Bichael');
   if (name.startsWith('Mic')) return 32;
   return 6;
 }

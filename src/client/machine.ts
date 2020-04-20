@@ -19,7 +19,7 @@ export class Machine {
   colorMap = {};
 
   static flashTime = 1;
-  static repairSpeed = 1 / 4;
+  static repairSpeed = 0.4;
 
   constructor(mesh, name) {
     this.mesh = mesh;
@@ -57,15 +57,15 @@ export class Machine {
       if (!this.repairing) {
         let period = Machine.healthToPeriod(this.health);
         if (this.blinking) {
+          this.setColor(false, 0xff0000);
           while (this.counter > 0.1) {
             this.counter -= 0.1;
-            this.setColor(true);
             this.blinking = false;
           }
         } else {
+          this.setColor(true);
           while (this.counter > period) {
             this.counter -= period;
-            this.setColor(false, 0xff0000);
             this.blinking = true;
           }
         }
@@ -73,15 +73,15 @@ export class Machine {
         let period = Machine.repairToPeriod(this.health);
         this.repairCounter += delta;
         if (this.repairBlinking) {
+          this.setColor(false, new THREE.Color().setHSL(0.14 + this.health * 0.13, 0.83, 0.58).getHex());
           while (this.repairCounter > 0.1) {
             this.repairCounter -= 0.1;
-            this.setColor(true);
             this.repairBlinking = false;
           }
         } else {
+          this.setColor(true);
           while (this.repairCounter > period) {
             this.repairCounter -= period;
-            this.setColor(false, new THREE.Color().setHSL(0.14 + this.health * 0.13, 0.83, 0.58).getHex());
             this.repairBlinking = true;
           }
         }

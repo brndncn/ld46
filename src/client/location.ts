@@ -11,11 +11,17 @@ export abstract class Location {
   cameraHeight: number = 4;
   cameraYOffset: number = 0;
 
+  // starting room
+  bossPos;
+  bossHead;
+  exampleMachines = [];
+
   mixer: THREE.AnimationMixer;
   labeledActions = {};
   unlabledActions = [];
 
   name: string;
+  friendlyName: string = "robot room";
   machines = [];
 
   moveCallback = (x, y) => true;
@@ -63,12 +69,27 @@ export abstract class Location {
         child.castShadow = COLORS.locationCastShadow(child.name);
         child.receiveShadow = true;
       }
+      if (child.name === 'Boss') {
+        this.bossPos = child.position;
+      } else if (child.name === 'BossHead') {
+        this.bossHead = child;
+      }
     });
     this.scene.traverse((child) => {
       if (child.name.indexOf('MACH') !== -1) {
         let machine = new Machine(child, this.name + child.name);
-        STATE.addMachine(machine);
-        this.machines.push(machine);
+        if (child.name.indexOf('Half') !== -1) {
+          machine.health = 0.1;
+          this.exampleMachines.push(machine);
+          this.machines.push(machine);
+        } else if (child.name.indexOf('Burnt') !== -1) {
+          machine.health = 0;
+          this.exampleMachines.push(machine);
+          this.machines.push(machine);
+        } else {
+          STATE.addMachine(machine);
+          this.machines.push(machine);
+        }
       }
     });
 
@@ -111,5 +132,13 @@ export abstract class Location {
     this.camera.position.x = Math.sqrt(25 - camY * camY);
     this.camera.position.z = this.cameraHeight - 0.7 * state.player.obj.position.z;
     this.camera.lookAt(this.cameraTarget);
+    if (this.name === 'startingRoom') {
+      let y = state.player.obj.position.y - this.bossPos.y;
+      let x = state.player.obj.position.x - this.bossPos.x;
+      this.bossHead.rotation.z = Math.atan2(y, x);
+      this.exampleMachines.forEach((machine) => {
+        machine.update(delta);
+      });
+    }
   }
 }
