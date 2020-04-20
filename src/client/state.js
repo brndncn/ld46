@@ -26,6 +26,7 @@ let nextDamageTime = 0;
 
 export function resetGame() {
   gameClock = -10;
+	nextDamageTime = 0;
   gameOver = false;
   aliveMachines = [];
   machines.forEach((machine) => {
